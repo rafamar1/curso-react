@@ -1,43 +1,31 @@
 'use strict';
 
-// arguments object - no longer bound with arrow function
-var add = function add(a, b) {
-    //console.log(arguments) FALLA, arguments no accesible en arrow
-    return a + b;
+var appRoot = document.getElementById('app');
+var visibility = true;
+var hideShowParagraph = function hideShowParagraph() {
+    visibility = !visibility;
+    render();
 };
-
-// this kewyword - no longer bound
-var user = {
-    name: 'Andre',
-    cities: ['Phila', 'NuevaYork'],
-    printPlacesLived: function printPlacesLived() {
-        var _this = this;
-
-        //Aquí se puede transformar el string de cities gracias al map
-        return this.cities.map(function (city) {
-            return _this.name + ' has lived in ' + city;
-        });
-        /*this.cities.forEach((city) => {
-            console.log(this.name + ' has lived in ' + city);
-        });*/
-    }
+var render = function render() {
+    var template = React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'h1',
+            null,
+            'Visibility Toogle'
+        ),
+        React.createElement(
+            'button',
+            { onClick: hideShowParagraph },
+            visibility ? 'Hide details' : 'Show details'
+        ),
+        visibility && React.createElement(
+            'p',
+            null,
+            'Hey. These are some details you can now see!'
+        )
+    );
+    ReactDOM.render(template, appRoot);
 };
-
-user.printPlacesLived();
-
-var multiplier = {
-    //numbers - array of numbers
-    //multiplyBy - single number
-    //multiply - return a new array where the number have been multiplied
-    numbers: [12, 23, 17],
-    multiplyBy: 2,
-    multiply: function multiply() {
-        var _this2 = this;
-
-        return this.numbers.map(function (number) {
-            return number * _this2.multiplyBy;
-        });
-    }
-};
-
-console.log(multiplier.multiply());
+render();
