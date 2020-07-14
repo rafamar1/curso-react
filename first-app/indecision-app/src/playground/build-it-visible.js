@@ -1,17 +1,29 @@
-const appRoot = document.getElementById('app');
-let visibility = true;
-const hideShowParagraph = () => {
-    visibility = !visibility;
-    render();
-};
-const render = () =>{
-    const template = (
+class VisibilityToogle extends React.Component {
+    constructor(props){
+        super(props);
+        this.handleToogleVisibility = this.handleToogleVisibility.bind(this);
+        this.state = {
+            visibility: false
+        };
+    }
+
+    handleToogleVisibility(){
+        this.setState((prevState) => {
+            return {
+                visibility: !prevState.visibility
+            };
+        });
+    }
+
+    render() {
+        return (
         <div>
             <h1>Visibility Toogle</h1>
-            <button onClick={hideShowParagraph}>{visibility ? 'Hide details' : 'Show details'}</button>
-            {visibility && (<p>Hey. These are some details you can now see!</p>)}
+            <button onClick={this.handleToogleVisibility}>{this.state.visibility ? 'Hide details' : 'Show details'}</button>
+            {this.state.visibility && (<p>Hey. These are some details you can now see!</p>)}
         </div>
-    );
-    ReactDOM.render(template, appRoot);
+        );
+    }
 }
-render();
+
+ReactDOM.render(<VisibilityToogle/>, document.getElementById('app'));
